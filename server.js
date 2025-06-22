@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -34,7 +34,7 @@ app.use('/api/stats', statsRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/recommendations', recommendationsRoutes);
 
-
+app.use(express.static(path.join(__dirname, 'public')));
 // Ruta principal - 
 // frontend
 app.get('/', (req, res) => {
