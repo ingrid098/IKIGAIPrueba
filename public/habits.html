@@ -638,7 +638,7 @@
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:3000/api/habits/${habitId}`, {
+                const response = await fetch(`/api/habits/${habitId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -671,7 +671,7 @@
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:3000/api/habits/${habitId}/progress`, {
+                const response = await fetch(`/api/habits/${habitId}/progress`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
