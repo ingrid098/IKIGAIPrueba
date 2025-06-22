@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKIGAI - Encuentra tu propósito</title>
+    <style>
+        body {
+            background-color: #87CEFA;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #002B45;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .logo {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .slogan {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            position: relative;
+            width: 350px;
+            margin: 40px auto;
+            min-height: 500px;
+        }
+
+        .card {
+            background-color: #4682B4;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            visibility: hidden;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 15px;
+            object-fit: contain;
+        }
+
+        .title {
+            margin: 0 0 25px 0;
+            font-size: 22px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: none;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #002B45;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #004a7c;
+        }
+
+        .divider {
+            color: white;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .google-button {
+            width: 100%;
+            padding: 12px;
+            background-color: white;
+            color: #555;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .google-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .links {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .link {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .link:hover {
+            color: #d1e0eb;
+            text-decoration: underline;
+        }
+
+        .message {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .error {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab.active {
+            background-color: #002B45;
+            font-weight: bold;
+        }
+
+        .date-container {
+            position: relative;
+            width: 48%;
+        }
+
+        .date-label {
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            font-size: 12px;
+            color: white;
+            opacity: 0.8;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <img src="logo1.png" alt="logo" class="header-logo">
+                <div class="header-text">
+                    <h1 class="logo">IKIGAI</h1>
+                    <p class="slogan">Encuentra tu propósito</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('login')">Iniciar sesión</div>
+            <div class="tab" onclick="switchTab('register')">Registrarse</div>
+        </div>
+
+        <div class="form-container">
+            <!-- Formulario de inicio de sesión -->
+            <div id="login-form" class="card active">
+                <img src="logo1.png" alt="logo" class="login-logo">
+                <h2 class="title">Iniciar sesión</h2>
+
+                <input type="email" id="login-email" placeholder="Correo electrónico" class="input">
+                <input type="password" id="login-password" placeholder="Contraseña" class="input">
+
+                <button class="button" onclick="login()">Ingresar</button>
+
+                <div id="login-message" class="message"></div>
+
+                <div class="divider">o</div>
+
+                <button class="google-button">
+                    <img src="google-icon.png" alt="Google" class="google-icon">
+                    Iniciar sesión con Google
+                </button>
+
+                <div class="links">
+                    <p>¿Olvidaste tu contraseña?</p>
+                    <a href="#" class="link" onclick="switchTab('register')">Registrarse</a>
+                </div>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div id="register-form" class="card">
+                <img src="logo1.png" alt="logo" class="login-logo">
+                <h2 class="title">Crear Cuenta</h2>
+
+                <input type="text" id="register-name" placeholder="Nombre completo" class="input">
+                <input type="text" id="register-document" placeholder="Documento de Identificación" class="input">
+                <input type="tel" id="register-phone" placeholder="Número celular" class="input">
+                <input type="email" id="register-email" placeholder="Correo electrónico" class="input">
+                <input type="password" id="register-password" placeholder="Contraseña" class="input">
+                <input type="password" id="register-confirm-password" placeholder="Confirmar Contraseña" class="input">
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <select id="register-gender" class="input" style="width: 48%;">
+                        <option value="">Seleccione su sexo</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <div class="date-container">
+                        <span class="date-label">Fecha de nacimiento</span>
+                        <input type="date" id="register-birthdate" class="input" style="width: 100%;">
+                    </div>
+                </div>
+
+                <button class="button" onclick="register()">Crear Cuenta</button>
+
+                <div id="register-message" class="message"></div>
+
+                <div class="links">
+                    <p>¿Ya tienes una cuenta?</p>
+                    <a href="#" class="link" onclick="switchTab('login')">Iniciar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cambiar entre pestañas con transición
+        function switchTab(tabName) {
+            // Actualizar pestañas activas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Activar la pestaña seleccionada
+            if (tabName === 'login') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                // Transición entre formularios
+                document.getElementById('register-form').classList.remove('active');
+                setTimeout(() => {
+                    document.getElementById('login-form').classList.add('active');
+                }, 10);
+            } else {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                // Transición entre formularios
+                document.getElementById('login-form').classList.remove('active');
+                setTimeout(() => {
+                    document.getElementById('register-form').classList.add('active');
+                }, 10);
+            }
+        }
+
+        // Mostrar mensaje
+        function showMessage(elementId, message, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'message ' + (isSuccess ? 'success' : 'error');
+            element.style.display = 'block';
+
+            // Ocultar mensaje después de 5 segundos
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        // Inicio de sesión
+        async function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Validación básica
+            if (!email || !password) {
+                showMessage('login-message', 'Por favor complete todos los campos', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: email,
+                        password
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('login-message', 'Autenticación satisfactoria. Redirigiendo...', true);
+                    // Guardar el token en localStorage
+                    localStorage.setItem('token', data.token);
+                    // Guardar los datos del usuario en localStorage
+                    localStorage.setItem('user', JSON.stringify({
+                        name: data.name,
+                        username: data.username
+                    }));
+
+                    // Redireccionar después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    showMessage('login-message', data.message || 'Error en la autenticación', false);
+                }
+            } catch (error) {
+                showMessage('login-message', 'Error de conexión con el servidor', false);
+                console.error('Error:', error);
+            }
+        }
+
+        // Registro
+        async function register() {
+            const name = document.getElementById('register-name').value;
+            const documentId = document.getElementById('register-document').value;
+            const phone = document.getElementById('register-phone').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const gender = document.getElementById('register-gender').value;
+            const birthdate = document.getElementById('register-birthdate').value;
+
+            // Validación de campos
+            if (!name || !documentId || !phone || !email || !password || !confirmPassword || !gender || !birthdate) {
+                showMessage('register-message', 'Por favor complete todos los campos', false);
+                return;
+            }
+
+            // Validar que las contraseñas coincidan
+            if (password !== confirmPassword) {
+                showMessage('register-message', 'Las contraseñas no coinciden', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name,
+                        documentId,
+                        phone,
+                        username: email,
+                        password,
+                        gender,
+                        birthdate
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('register-message', 'Registro exitoso. Ahora puedes iniciar sesión.', true);
+
+                    // Limpiar formulario
+                    document.getElementById('register-name').value = '';
+                    document.getElementById('register-document').value = '';
+                    document.getElementById('register-phone').value = '';
+                    document.getElementById('register-email').value = '';
+                    document.getElementById('register-password').value = '';
+                    document.getElementById('register-confirm-password').value = '';
+                    document.getElementById('register-gender').value = '';
+                    document.getElementById('register-birthdate').value = '';
+
+                    // Cambiar a inicio de sesión después de 1.5 segundos
+                    setTimeout(() => {
+                        switchTab('login');
+                        // También puedes autocompletar el email en el login
+                        document.getElementById('login-email').value = email;
+                    }, 1500);
+                } else {
+                    showMessage('register-message', data.message || 'Error en el registro', false);
+                }
+            } catch (error) {
+                showMessage('register-message', 'Error de conexión con el servidor', false);
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>
