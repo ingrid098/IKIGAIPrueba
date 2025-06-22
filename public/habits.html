@@ -444,7 +444,7 @@
         async function loadHabits() {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/api/habits', {
+                const response = await fetch('/api/habits', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -526,7 +526,7 @@
             if (confirm('¿Estás seguro de que deseas eliminar este hábito?')) {
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch(`http://localhost:3000/api/habits/${habitId}`, {
+                    const response = await fetch(`/api/habits/${habitId}`, {
                         method: 'DELETE',
                         headers: {
                             'Authorization': `Bearer ${token}`
